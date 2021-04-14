@@ -7,8 +7,8 @@ This repository contains model definitions, training scripts, and other examples
 
 ### Classification
 
-- [ ] LeNet [Paper](http://yann.lecun.com/exdb/publis/pdf/lecun-01a.pdf) [Model](models/classification/lenet.py)
-- [ ] AlexNet [Paper](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf) [Model](models/classification/alexnet.py)
+- [ ] LeNet [Paper](http://yann.lecun.com/exdb/publis/pdf/lecun-01a.pdf) 
+- [ ] AlexNet [Paper](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf) 
 - [x] VGG16 and VGG19 [Paper](https://arxiv.org/pdf/1409.1556.pdf) [PyTorch](https://github.com/Xrenya/SOTA/blob/main/pytorch/VGG/vgg.py)
 - [ ] ResNet [Paper](https://arxiv.org/pdf/1512.03385v1.pdf)
 - [ ] YOLO9000 [Paper](https://arxiv.org/pdf/1612.08242.pdf)
@@ -21,11 +21,9 @@ This repository contains model definitions, training scripts, and other examples
 - [ ] R-FCN [Paper](https://arxiv.org/pdf/1605.06409.pdf)
 
 ### Segmentation
-|  status  |      Model     |   Paper       | Keras (tf)  | PyTorch                   
-|----------|----------------|---------------|-------------|-------------
-|&#9744;| FCN8| [Paper](https://arxiv.org/pdf/1411.4038.pdf) | | |
+- [x] FCN8 [Paper](https://arxiv.org/pdf/1411.4038.pdf)
 - [x] SegNet [Paper](https://arxiv.org/pdf/1511.00561) [PyTorch](https://github.com/Xrenya/SOTA/blob/main/pytorch/Segmentation/SegNet.py)
-- [x] U-Net [Paper](https://arxiv.org/pdf/1505.04597)[PyTorch](https://github.com/Xrenya/SOTA/blob/main/pytorch/Segmentation/UNet.py)
+- [x] U-Net [Paper](https://arxiv.org/pdf/1505.04597) [PyTorch](https://github.com/Xrenya/SOTA/blob/main/pytorch/Segmentation/UNet.py)
 - [ ] E-Net [Paper](https://arxiv.org/pdf/1606.02147.pdf)
 - [ ] ResNetFCN [Paper](https://arxiv.org/pdf/1611.10080.pdf)
 - [ ] PSPNet [Paper](https://arxiv.org/pdf/1612.01105.pdf)
