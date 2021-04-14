@@ -9,7 +9,7 @@ This repository contains model definitions, training scripts, and other examples
 
 - [ ] LeNet [Paper](http://yann.lecun.com/exdb/publis/pdf/lecun-01a.pdf) 
 - [ ] AlexNet [Paper](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf) 
-- [x] VGG16 and VGG19 [Paper](https://arxiv.org/pdf/1409.1556.pdf) [PyTorch](https://github.com/Xrenya/SOTA/blob/main/pytorch/VGG/vgg.py)
+- [x] VGG16 and VGG19 [[Paper](https://arxiv.org/pdf/1409.1556.pdf)] [[PyTorch](https://github.com/Xrenya/SOTA/blob/main/pytorch/VGG/vgg.py)]
 - [ ] ResNet [Paper](https://arxiv.org/pdf/1512.03385v1.pdf)
 - [ ] YOLO9000 [Paper](https://arxiv.org/pdf/1612.08242.pdf)
 - [ ] DenseNet [Paper](https://arxiv.org/pdf/1608.06993.pdf)
@@ -23,7 +23,7 @@ This repository contains model definitions, training scripts, and other examples
 ### Segmentation
 - [x] FCN8 [Paper](https://arxiv.org/pdf/1411.4038.pdf)
 - [x] SegNet [Paper](https://arxiv.org/pdf/1511.00561) [PyTorch](https://github.com/Xrenya/SOTA/blob/main/pytorch/Segmentation/SegNet.py)
-- [x] U-Net [Paper](https://arxiv.org/pdf/1505.04597) [<img src="https://github.com/valohai/ml-logos/blob/master/pytorch.svg" width="100" height="50"/>](https://github.com/Xrenya/SOTA/blob/main/pytorch/Segmentation/UNet.py)
+- [x] U-Net [Paper](https://arxiv.org/pdf/1505.04597) [<img src="https://github.com/valohai/ml-logos/blob/master/pytorch.svg" width="50" height="25"/>](https://github.com/Xrenya/SOTA/blob/main/pytorch/Segmentation/UNet.py)
 - [ ] E-Net [Paper](https://arxiv.org/pdf/1606.02147.pdf)
 - [ ] ResNetFCN [Paper](https://arxiv.org/pdf/1611.10080.pdf)
 - [ ] PSPNet [Paper](https://arxiv.org/pdf/1612.01105.pdf)
