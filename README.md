@@ -23,7 +23,7 @@ This repository contains model definitions, training scripts, and other examples
 ### Segmentation
 |  status  |      Model     |   Paper       | Keras (tf)  | PyTorch                   
 |----------|----------------|---------------|-------------|-------------
-|<ul><li>[ ]</li><li>| FCN8| [Paper](https://arxiv.org/pdf/1411.4038.pdf) | | |
+|<ul><li>-[ ]</li><li>-| FCN8| [Paper](https://arxiv.org/pdf/1411.4038.pdf) | | |
 - [x] SegNet [Paper](https://arxiv.org/pdf/1511.00561) [PyTorch](https://github.com/Xrenya/SOTA/blob/main/pytorch/Segmentation/SegNet.py)
 - [x] U-Net [Paper](https://arxiv.org/pdf/1505.04597)[PyTorch](https://github.com/Xrenya/SOTA/blob/main/pytorch/Segmentation/UNet.py)
 - [ ] E-Net [Paper](https://arxiv.org/pdf/1606.02147.pdf)
