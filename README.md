@@ -7,8 +7,8 @@ This repository contains model definitions, training scripts, and other examples
 
 ### Classification
 
-- [x] LeNet [[Paper](http://yann.lecun.com/exdb/publis/pdf/lecun-01a.pdf)] [[Tensorflow](https://github.com/Xrenya/SOTA/blob/main/tf/classification/LeNet.py)]
-- [ ] AlexNet [Paper](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf) 
+- [x] LeNet [[Paper](http://yann.lecun.com/exdb/publis/pdf/lecun-01a.pdf)] [[PyTorch](https://github.com/Xrenya/SOTA/tree/main/pytorch/classification/LeNet.py)] [[Tensorflow](https://github.com/Xrenya/SOTA/blob/main/tf/classification/LeNet.py)]
+- [ ] AlexNet [Paper](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf)
 - [x] VGG16 and VGG19 [[Paper](https://arxiv.org/pdf/1409.1556.pdf)] [[PyTorch](https://github.com/Xrenya/SOTA/blob/main/pytorch/VGG/vgg.py)]
 - [ ] ResNet [Paper](https://arxiv.org/pdf/1512.03385v1.pdf)
 - [ ] YOLO9000 [Paper](https://arxiv.org/pdf/1612.08242.pdf)
