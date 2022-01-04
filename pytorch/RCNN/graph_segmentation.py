@@ -76,5 +76,5 @@ def plot_img_and_mask(img: np.array):
     ax.set_title("Original image")
     ax  = fig.add_subplot(122)
     ax.imshow(img[:, :, 3])
-    ax.set_title("Segmentation image")
+    ax.set_title(f"Segmentation image (N unique regions={len(img[:, :, 3])})")
     plt.show()
