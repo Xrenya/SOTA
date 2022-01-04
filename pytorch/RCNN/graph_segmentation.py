@@ -39,10 +39,25 @@ def plot_image_segmentation(img_path: str=None):
 
 
 def image_segmentation(img_path: str,
-                       scale: float=1.,
+                       scale: int=1,
                        sigma: float=0.5,
                        min_size: int=50
 ) -> np.array:
+    """
+
+    :param img_path: str
+        Image path
+    :param scale: int
+        Free parameter. Higher means larger clusters in felzenszwalb segmentation.
+    :param sigma: float
+        Width of Gaussian kernel for felzenszwalb segmentation.
+    :param min_size: int
+        Minimum component size for felzenszwalb segmentation.
+    :return:
+    img : ndarray
+        Image with region label
+        Region label is stored in the 4th value of each pixel [r, g, b, region]
+    """
     img = skimage.io.imread(fname=img_path)
     img_masks = skimage.segmentation.felzenszwalb(
         img,
