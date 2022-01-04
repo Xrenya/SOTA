@@ -67,3 +67,14 @@ def image_segmentation(img_path: str,
     )
     img = np.dstack([img, img_masks])
     return img
+
+
+def plot_img_and_mask(img: np.array):
+    fig = plt.figure(figsize=(15,30))
+    ax  = fig.add_subplot(121)
+    ax.imshow(img[:, :, :3])
+    ax.set_title("Original image")
+    ax  = fig.add_subplot(122)
+    ax.imshow(img[:, :, 3])
+    ax.set_title("Segmentation image")
+    plt.show()
