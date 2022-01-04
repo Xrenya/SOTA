@@ -1,14 +1,15 @@
 import skimage
 import skimage.segmentation
 import matplotlib.pyplot as plt
+import numpy as np
 
 
-def graph_segmentation(img_path: str=None):
+def plot_image_segmentation(img_path: str=None):
     """This fast 2D image segmentation algorithm
     Efficient graph-based image segmentation,
     Felzenszwalb, P.F. and Huttenlocher, D.P.
     International Journal of Computer Vision, 2004
-    
+
     http://people.cs.uchicago.edu/~pff/papers/seg-ijcv.pdf
 
     :param img_path:
@@ -35,3 +36,19 @@ def graph_segmentation(img_path: str=None):
                                     f"sigma={sigma}, "
                                     f"min_size={min_size}")
     plt.show()
+
+
+def image_segmentation(img_path: str,
+                       scale: float=1.,
+                       sigma: float=0.5,
+                       min_size: int=50
+) -> np.array:
+    img = skimage.io.imread(fname=img_path)
+    img_masks = skimage.segmentation.felzenszwalb(
+        img,
+        scale=scale,
+        sigma=sigma,
+        min_size=min_size
+    )
+    img = np.dstack([img, img_masks])
+    return img
