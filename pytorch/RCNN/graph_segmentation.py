@@ -169,3 +169,24 @@ def plot_image_with_min_max(img, title):
         np.max(img))
     )
     plt.show()
+
+
+def calc_hist(img, min_hist=0, max_hist=1):
+    BINS = 25
+    hist = np.array([])
+
+    for channel in range(3):
+        c = img[:, channel]
+        hist = np.concatenate(
+            [hist] + [np.histogram(c, BINS, (min_hist, max_hist))[0]]
+        )
+    hist = hist / len(img)
+    return hist
+
+def augment_regions_with_hist_info(text_grad, img, regions, hsv, tex_grad):
+    for key, value in list(regions.items()):
+        masked_pixels = hsv[img[:, :, 3] == key]
+        regions[key]["size"] = len(masked_pixels / 4)
+        regions[key]["hist_c"] = calc_hist(masked_pixels)
+        regions[key]["hist_t"] = calc_hist(text_grad[img[:, :, 3] == key])
+    return regions
