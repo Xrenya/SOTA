@@ -79,7 +79,73 @@ def plot_img_and_mask(img: np.array):
     ax.set_title(f"Segmentation image (N unique regions={len(img[:, :, 3])})")
     plt.show()
 
-    
+def extract_regions(img: np.array) -> {}:
+    segments = img[:, :, 3]
+    regions = {}
+    for y, label in enumerate(segments): # Iterate over horizontal axis
+        for x, l in enumerate(label): # Iterate over vertical axis
+            if l not in regions:
+                regions[l] = {
+                    "min_x": np.inf,
+                    "min_y": np.inf,
+                    "max_x": 0,
+                    "max_y": 0,
+                    "labels": l
+                }
+
+            # Bounding boxes for segments
+            if regions[l]["min_x"] > x:
+                regions[l]["min_x"] = x
+            if regions[l]["min_y"] > y:
+                regions[l]["min_y"] = y
+            if regions[l]["max_x"] < x:
+                regions[l]["max_x"] = x
+            if regions[l]["max_y"] < y:
+                regions[l]["max_y"] = y
+
+    for key in regions.keys():
+        r = regions[key]
+        if (r["min_x"] == r["max_x"]) or (r["min_y"] == r["max_y"]):
+            del regions[key]
+    return regions
+
+
+def plt_rectangle(plt, label, x1, y1, x2, y2, color="yellow", alpha=0.5):
+    linewidth = 3
+    if type(label) == list:
+        linewidth = len(label)  * 3 + 2
+        label = ""
+        
+    plt.text(x1, y1, label, fontsize=20, backgroundcolor=color, alpha=alpha)
+    plt.plot([x1,x1], [y1,y2], linewidth=linewidth, color=color, alpha=alpha)
+    plt.plot([x2,x2], [y1,y2], linewidth=linewidth, color=color, alpha=alpha)
+    plt.plot([x1,x2], [y1,y1], linewidth=linewidth, color=color, alpha=alpha)
+    plt.plot([x1,x2], [y2,y2], linewidth=linewidth, color=color, alpha=alpha)
+
+# figsize = (20,20)
+# plt.figure(figsize=figsize)    
+# plt.imshow(img[:,:,:3])
+# for item in regions.values():
+#     x1 = item["min_x"]
+#     y1 = item["min_y"]
+#     x2 = item["max_x"]
+#     y2 = item["max_y"]
+#     label = item["labels"]
+#     plt_rectangle(plt, label, x1, y1, x2, y2, color=np.random.choice(list(sns.xkcd_rgb.values())))
+# plt.show()
+
+# plt.figure(figsize=figsize)    
+# plt.imshow(img[:,:,3])
+# for item in regions.values():
+#     x1 = item["min_x"]
+#     y1 = item["min_y"]
+#     x2 = item["max_x"]
+#     y2 = item["max_y"]
+#     label = item["labels"]
+#     plt_rectangle(plt, label, x1, y1, x2, y2, color=np.random.choice(list(sns.xkcd_rgb.values())))
+# plt.show()
+
+
 def calc_texture_grad(img: np.array):
     ret = np.zeros(img.shape[:3])
     for channel in (0, 1, 2):
