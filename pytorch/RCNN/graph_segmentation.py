@@ -148,7 +148,7 @@ def plt_rectangle(plt, label, x1, y1, x2, y2, color="yellow", alpha=0.5):
 
 def calc_texture_grad(img: np.array):
     ret = np.zeros(img.shape[:3])
-    for channel in (0, 1, 2):
+    for channel in range(3):
         ret[:, :, channel] = skimage.feature.local_binary_pattern(
             img[:, :, channel], 8, 1.
         )
