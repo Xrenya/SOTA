@@ -78,3 +78,28 @@ def plot_img_and_mask(img: np.array):
     ax.imshow(img[:, :, 3])
     ax.set_title(f"Segmentation image (N unique regions={len(img[:, :, 3])})")
     plt.show()
+
+    
+def calc_texture_grad(img: np.array):
+    ret = np.zeros(img.shape[:3])
+    for channel in (0, 1, 2):
+        ret[:, :, channel] = skimage.feature.local_binary_pattern(
+            img[:, :, channel], 8, 1.
+        )
+    return ret
+
+
+def calc_hsv(img):
+    hsv = skimage.color.rgb2hsv(img[:,:,:3])
+    return hsv
+
+
+def plot_image_with_min_max(img, title):
+    img = img[:, :, :3]
+    plt.imshow(img)
+    plt.title("{} min={:5.3f}, max={:5.3f}".format(
+        title,
+        np.min(img),
+        np.max(img))
+    )
+    plt.show()
