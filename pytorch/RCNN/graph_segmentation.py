@@ -183,6 +183,7 @@ def calc_hist(img, min_hist=0, max_hist=1):
     hist = hist / len(img)
     return hist
 
+
 def augment_regions_with_hist_info(text_grad, img, regions, hsv, tex_grad):
     for key, value in list(regions.items()):
         masked_pixels = hsv[img[:, :, 3] == key]
@@ -190,3 +191,21 @@ def augment_regions_with_hist_info(text_grad, img, regions, hsv, tex_grad):
         regions[key]["hist_c"] = calc_hist(masked_pixels)
         regions[key]["hist_t"] = calc_hist(text_grad[img[:, :, 3] == key])
     return regions
+
+
+def extract_neighbours(regions):
+    def intersect(a, b):
+        if (a["min_x"] < b["min_x"] < a["max_x"] and a["min_y"] < b["min_y"] < a["max_y"] or
+           (a["min_x"] < b["max_x"] < a["max_x"] and a["min_y"] < b["max_y"] < a["max_y"]) or\
+           (a["min_x"] < b["min_x"] < a["max_x"] and a["min_y"] < b["max_y"] < a["max_y"]) or\
+           (a["min_x"] < b["max_x"] < a["max_x"] and a["min_y"] < b["min_y"] < a["max_y"]):
+            return True
+        return False
+
+    regions_list = list(regions.items())
+    neighbours = []
+    for cur, a in enumerate(regions_list[:-1]):
+        for b in regions_list[cur + 1:]:
+            if intersect(a[1], b[1]):
+                neighbours.append((a, b))
+    return neighbours
