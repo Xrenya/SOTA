@@ -209,3 +209,115 @@ def extract_neighbours(regions):
             if intersect(a[1], b[1]):
                 neighbours.append((a, b))
     return neighbours
+
+            def sim_colour(region_1, region_2):
+    return sum([
+       min(a, b) for a, b in zip(region_1["hist_c"], region_2["hist_c"])
+    ])
+
+
+def sim_texture(region_1, region_2):
+    return sum([
+        min(a, b) for a, b in zip(region_1["hist_t"], region_2["hist_t"])
+    ])
+
+
+def sim_size(region_1, region_2, size):
+    return 1. - (region_1["size"] + region_2["size"]) / size
+
+
+def sim_fill(region_1, region_2, size):
+    bbsize = (
+        (max(region_1["max_x"], region_2["max_x"])
+         - min(region_1["min_x"], region_2["min_x"]))
+        * (max(region_1["max_y"], region_2["max_y"])
+         - min(region_1["min_y"], region_2["min_y"]))
+    )
+    return 1. - (bbsize - region_1["size"] + region_2["size"]) / size
+
+
+def calc_sim(region_1, region_2, size):
+    return (sim_colour(region_1, region_2)
+            + sim_texture(region_1, region_2)
+            + sim_size(region_1, region_2, size)
+            + sim_fill(region_1, region_2, size))
+
+
+def caculate_simmilarity(img, neighbours, verbose=False):
+    size = img.shape[0] * img.shape[1]
+    s = {}
+    for (ai, ar), (bi, br) in neighbours:
+        s[(ai, ar)] = calc_sim(bi, br, size)
+        if verbose:
+            print("S[({:2.0f}, {:2.0f})]={:3.2f}".format(ai,bi,S[(ai, bi)]))
+    return s
+
+
+def merge_regions(region_1, region_2):
+    size = region_1["size"] + region_2["size"]
+    merged_region = {
+        "min_x": min(region_1["min_x"], region_2["min_x"]),
+        "min_y": min(region_1["min_y"], region_2["min_y"]),
+        "max_x": max(region_1["max_x"], region_2["max_x"]),
+        "max_y": max(region_1["max_y"], region_2["max_y"]),
+        "size": size,
+        "hist_c": (region_1["hist_c"] * region_1["size"]
+                   + region_2["hist_c"] * region_2["size"]) / size,
+        "hist_t": (region_1["hist_t"] * region_1["size"]
+                   + region_2["hist_t"] * region_2["size"]) / size,
+        "labels": region_1["labels"] + region_2["labels"]
+    }
+    return merged_region
+
+
+def merge_regions_in_order(sim, regions, size, verbose=False):
+    while sim != {}:
+        i, j = sorted(sim.items(), key=lambda i: i[1])[-1][0]
+
+        t = max(regions.keys()) + 1
+        regions[t] = merge_regions(regions[i], regions[j])
+
+        key_to_delete = []
+        for k, v in sim.items():
+            if (i in k) or (j in k):
+                key_to_delete.append(k)
+
+        for key in key_to_delete:
+            del sim[key]
+
+        for k in key_to_delete:
+            if k != (i, j):
+                if k[0] in (i, j):
+                    n = k[1]
+                else:
+                    n = k[0]
+                sim[(t, n)] = calc_sim(regions[t], regions[n], size)
+
+        if verbose:
+            print("{} regions".format(len(regions)))
+
+        output_regions = []
+        for k, r in regions.items():
+            output_regions.append({
+                'rect': (
+                    r['min_x'],  # min x
+                    r['min_y'],  # min y
+                    r['max_x'] - r['min_x'],  # width 
+                    r['max_y'] - r['min_y']),  # height
+                'size': r['size'],
+                'labels': r['labels']
+            })
+        return output_regions
+
+
+def get_region_proposal(img_path, min_size=500):
+    img = image_segmentation(img_path, min_size=min_size)
+    R = extract_regions(img)    
+    tex_grad = calc_texture_grad(img)
+    hsv = calc_hsv(img)
+    regions = augment_regions_with_hist_info(tex_grad, img, R, hsv, tex_grad)
+    del tex_grad, hsv
+    neighbours = extract_neighbours(regions)
+    S = calculate_similarlity(img, neighbours)
+    regions = merge_regions_in_order(S, regions, size=img.shape[0] * img.shape[1])
+    return regions
