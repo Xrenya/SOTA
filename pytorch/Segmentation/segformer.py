@@ -216,16 +216,6 @@ class SegFormerEncoder(nn.Module):
     ):
         super().__init__()
         drop_probs = [x.item() for x in torch.linspace(0, drop_prob, sum(depths))]
-        for args in zip(
-                [in_channels, *widths],
-                widths,
-                patch_sizes,
-                overlap_sizes,
-                chunks(drop_probs, sizes=depths),
-                depths,
-                reduction_ratios,
-                all_num_heads,
-                mlp_expansions):
         self.stages = nn.ModuleList(
             [
                 SegFormerEncoderStage(*args)
