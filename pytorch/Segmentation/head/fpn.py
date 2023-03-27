@@ -53,7 +53,6 @@ class FPNHead(nn.Module):
 
     def forward(self, features: List[torch.Tensor]) -> torch.Tensor:
         features = features[::-1]
-        print(features[0].shape)
         hidden_features = self.lateral_convs[0](features[0])
 
         for i in range(1, len(features)):
