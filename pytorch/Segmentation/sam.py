@@ -5,7 +5,6 @@ from torch.nn import functional as F
 
 from typing import Any, Dict, List, Tuple, Type, Optional
 
-
 # Visual embeddings code
 
 
@@ -67,7 +66,7 @@ class Attention(nn.Module):
         super().__init__()
         self.num_heads = num_heads
         head_dim = dim // num_heads
-        self.scale = head_dim ** -0.5
+        self.scale = head_dim**-0.5
 
         self.qkv = nn.Linear(dim, dim * 3, bias=qkv_bias)
         self.proj = nn.Linear(dim, dim)
@@ -310,7 +309,6 @@ class Block(nn.Module):
             x = x[:, :H, :W, :].contiguous()
         return x
 
-
 class ImageEncoderViT(nn.Module):
     def __init__(
         self,
@@ -323,7 +321,7 @@ class ImageEncoderViT(nn.Module):
         mlp_ratio: float = 4.0,
         hidden_size: int = 256,
         qkv_bias: bool = True,
-        norm_layer: Type[nn.Module] = nn.LayerNorm,
+        norm_layer: Type[nn.Module]= nn.LayerNorm,
         act_layer: Type[nn.Module] = nn.GELU,
         use_abs_pos: bool = True,
         use_rel_pos: bool = False,
@@ -401,7 +399,6 @@ class PositionEmbeddingRandom(nn.Module):
     """
     Positional encoding using random spatial frequencies.
     """
-
     def __init__(
         self,
         num_pos_feats: int = 64,
@@ -445,7 +442,7 @@ class PositionEmbeddingRandom(nn.Module):
         coords = coords_input.clone()
         coords[:, :, 0] = coords_input[:, :, 0] / image_size[1]
         coords[:, :, 1] = coords_input[:, :, 1] / image_size[0]
-        return self._pe_encoding(coords.to(torch.float))  # B x N x C
+        return self._pe_encoding(coords.to(torch.float)) # B x N x C
 
 
 class PromptEncoder(nn.Module):
@@ -536,7 +533,7 @@ class PromptEncoder(nn.Module):
         pad: bool,
     ) -> torch.Tensor:
         """Embeds point prompts."""
-        points += 0.5  # shift to center of pixel
+        points += 0.5 # shift to center of pixel
         if pad:
             padding_point = torch.zeros((points.shape[0], 1, 2), device=points.device)
             padding_label = torch.zeros((points.shape[0], 1), device=points.device)
@@ -557,7 +554,7 @@ class PromptEncoder(nn.Module):
         corner_embedding[:, 0, :] += self.point_embeddings[2].weight
         corner_embedding[:, 1, :] += self.point_embeddings[3].weight
         return corner_embedding
-
+    
     def get_dense_pe(self) -> torch.Tensor:
         """
         Returns the positional encoding used to encode point prompts,
@@ -708,7 +705,7 @@ class MaskDecoder(nn.Module):
     def forward(
         self,
         image_embeddings: torch.Tensor,
-        image_pe: torch.Tensor,
+        image_pe:    torch.Tensor,
         sparse_prompt_embeddings: torch.Tensor,
         dense_prompt_embeddings: torch.Tensor,
         multimask_output: bool,
@@ -760,7 +757,7 @@ class MaskDecoder(nn.Module):
         # Expand pre-image data in batch direction to be per-mask
         src = torch.repeat_interleave(image_embeddings, tokens.shape[0], dim=0)
         src += dense_prompt_embeddings
-        pos_src = torch.repeat_interleave(image_pe, tokens.shape[0], dim=0)
+        pos_src = torch.repeat_interleave(image_pe, tokens.shape[0],dim=0)
         batch_size, channels, height, width = src.shape
 
         # run the trasnformer
@@ -776,8 +773,7 @@ class MaskDecoder(nn.Module):
             hyper_in_list.append(self.output_hypernetworks_mlps[i](mask_tokens_out[:, i, :]))
         hyper_in = torch.stack(hyper_in_list, dim=1)
         batch_size, channels, height, width = upscaled_embedding.shape
-        masks = (hyper_in @ upscaled_embedding.view(batch_size, channels, height * width)).view(batch_size, -1, height,
-                                                                                                width)
+        masks = (hyper_in @ upscaled_embedding.view(batch_size, channels, height * width)).view(batch_size, -1, height, width)
 
         # generate mask quality predictions
         iou_pred = self.iou_prediction_head(iou_token_out)
@@ -884,7 +880,6 @@ class Sam(nn.Module):
         x = F.pad(x, (0, padw, 0, padh))
         return x
 
-
 class TwoWayAttention(nn.Module):
     def __init__(
         self,
@@ -942,7 +937,7 @@ class TwoWayAttentionBlock(nn.Module):
         self,
         embedding_dim: int,
         num_heads: int,
-        mlp_dim: int = 2048,
+        mlp_dim: int = 2048 ,
         act: Type[nn.Module] = nn.ReLU,
         attention_downsample_rate: int = 2,
         skip_first_layer_pe: bool = False,
