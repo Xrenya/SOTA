@@ -115,7 +115,7 @@ class Attention(nn.Module):
         if rel_pos.shape[0] != max_rel_dist:
             # interpolate
             rel_pos_resized = F.interpolate(
-                rel_pos.shape(1, rel_pos.shape[0], -1).permute(0, 2, 1),
+                rel_pos.reshape(1, rel_pos.shape[0], -1).permute(0, 2, 1),
                 size=max_rel_dist,
                 mode="linear"
             )
