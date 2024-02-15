@@ -5,6 +5,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+__all__ = ["MobileOneBlock", "reparameterize_model"]
+
 
 class SEBlock(nn.Module):
     def __init__(self, in_channels: int, rd_ratio: float = 0.0625) -> None:
@@ -165,8 +167,8 @@ class MobileOneBlock(nn.Module):
         # delete unused branches
         for param in self.parameters():
             param.detach()
-        self.__delatt__("rbr_conv")
-        self.__delatt__("rbr_scale")
+        self.__delattr__("rbr_conv")
+        self.__delattr__("rbr_scale")
         if hasattr(self, "rbr_skip"):
             self.__delattr__("rbr_skip")
         self.inference_mode = True
@@ -290,6 +292,6 @@ def reparameterize_model(model: nn.Module) -> nn.Module:
     """
     model = copy.deepcopy(model)
     for module in model.modules():
-        if hasattr(module, "repameterize"):
-            module.repameterize()
+        if hasattr(module, "reparameterize"):
+            module.reparameterize()
     return model
