@@ -129,7 +129,7 @@ class RepMixer(nn.Module):
             x = self.reparam_conv(x)
         else:
             if self.use_layer_scale:
-                x = x + self.layer_scale * (self.mixer(x) - self.norm)
+                x = x + self.layer_scale * (self.mixer(x) - self.norm(x))
             else:
                 x = x + self.mixer(x) - self.norm(x)
         return x
